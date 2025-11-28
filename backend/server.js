@@ -11,7 +11,8 @@ app.use(cors(
         origin: [
             "http://localhost:3000/",
             "https://willowy-cassata-b5bdeb.netlify.app",
-            "https://grand-conkies-f62276.netlify.app/"
+            "https://grand-conkies-f62276.netlify.app/",
+            "https://lighthearted-strudel-1650fe.netlify.app/"
         ]
     }
 ))
