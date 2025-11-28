@@ -10,7 +10,7 @@ app.use(cors(
     {
         origin: [
             "http://localhost:3000/",
-            "https://willowy-cassata-b5bdeb.netlify.app/signin"
+            "https://willowy-cassata-b5bdeb.netlify.app"
         ]
     }
 ))
