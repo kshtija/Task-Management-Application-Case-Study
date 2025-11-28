@@ -1,0 +1,15 @@
+const Task=require('../models/Task');
+exports.createTask=async(req,res)=>{res.json(await Task.create({...req.body,user:req.user._id}));};
+exports.listTasks=async(req,res)=>{const{page=1,limit=10}=req.query;
+const q={user:req.user._id}; const total=await Task.countDocuments(q);
+const tasks=await Task.find(q).sort({createdAt:-1}).skip((page-1)*limit).limit(limit);
+res.json({tasks,total,page:Number(page),pages:Math.ceil(total/limit)});};
+exports.getTask=async(req,res)=>{const t=await Task.findById(req.params.id);
+if(!t)return res.status(404).json({message:'Not found'});
+if(String(t.user)!==String(req.user._id)&&req.user.role!=='admin') return res.status(403).json({message:'Forbidden'});
+res.json(t);};
+exports.updateTask=async(req,res)=>{const t=await Task.findById(req.params.id);
+if(!t)return res.status(404).json({message:'Not found'});
+if(String(t.user)!==String(req.user._id)&&req.user.role!=='admin') return res.status(403).json({message:'Forbidden'});
+Object.assign(t,req.body); await t.save(); res.json(t);};
+exports.deleteTask=async(req,res)=>{await Task.findByIdAndDelete(req.params.id); res.json({message:'Deleted'});};
